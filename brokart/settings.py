@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'products',
+    'products',  # Your custom apps
     'customers',
     'orders',
-    'themes'
+    'themes',
 ]
 
 MIDDLEWARE = [
@@ -58,8 +59,8 @@ ROOT_URLCONF = 'brokart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Templates directory
+        'APP_DIRS': True,  # Automatically find templates in each app's templates folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -119,7 +120,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'  # Use '/static/' for development
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # This is the static directory for your project
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Collect static files here for production
+
+# Media files (Uploaded by users)
+MEDIA_URL = '/media/'  # URL for serving media files
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory for storing media files
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
